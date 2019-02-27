@@ -8,19 +8,20 @@ import (
 	domain "github.com/eldimious/slack-golang-gcf/domain/messages"
 )
 
-type SlackConfig struct {
+// Dispatcher sends notification to slack groups
+type Dispatcher struct {
 	config *config.Slack
 }
 
-// New initializes a KeyGetter
-func New(config *config.Slack) *SlackConfig {
-	return &SlackConfig{
+// New initializes a Dispatcher
+func New(config *config.Slack) *Dispatcher {
+	return &Dispatcher{
 		config: config,
 	}
 }
 
-// GetPrivateKey reads the private key from the filesystem
-func (kg *SlackConfig) SendMessage(message *domain.Message) (interface{}, error) {
+// SendMessage send message
+func (kg *Dispatcher) SendMessage(message *domain.Message) (string, error) {
 	payload := slack.Payload{
 		Text:      message.Text,
 		Username:  message.Username,

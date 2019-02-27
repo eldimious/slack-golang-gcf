@@ -1,21 +1,20 @@
 package messages
 
-// MessageDispatcher defines an interface for sending messages
-type MessageDispatcher interface {
-	SendMessage(message *Message) (*string, error)
-}
-
-// MessageService defines message service behavior.
+// BookService defines book service behavior.
 type MessageService interface {
-	MessageDispatcher
+	SendMessage(*Message) (string, error)
 }
 
-// Service struct handles messagess business logic tasks.
+// Service struct handles book business logic tasks.
 type Service struct {
-	MessageDispatcher
+	repository MessageService
+}
+
+func (svc *Service) SendMessage(message *Message) (string, error) {
+	return svc.repository.SendMessage(message)
 }
 
 // NewService creates a new service struct
-func NewService(dispatcher MessageDispatcher) *Service {
-	return &Service{MessageDispatcher: dispatcher}
+func NewService(repository MessageRepository) *Service {
+	return &Service{repository: repository}
 }

@@ -2,6 +2,7 @@ package function
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"github.com/eldimious/slack-golang-gcf/config"
@@ -16,15 +17,16 @@ type messageValidator struct {
 	IconEmoji string
 }
 
-// GetUserDetails - Get one user's details from randomuser.me API
-func GetUserDetails(w http.ResponseWriter, r *http.Request) {
+// SendNotification - Send notification to slack group
+func SendNotification(w http.ResponseWriter, r *http.Request) {
 	var data messageValidator
 	err := json.NewDecoder(r.Body).Decode(&data)
 	if err != nil {
-		panic(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(err.Error()))
+		log.Println(err.Error())
+		return
 	}
-
-	//data := decoder.Decode(&messages.Message)
 	message := &messages.Message{
 		Text:      data.Text,
 		Username:  data.Username,
@@ -34,8 +36,21 @@ func GetUserDetails(w http.ResponseWriter, r *http.Request) {
 
 	configuration, err := config.NewConfig()
 	if err != nil {
-		panic(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(err.Error()))
+		log.Println(err.Error())
+		return
 	}
 	messagesDispatcher := messagesStore.New(configuration.Slack)
 	messagesSvc := messages.NewService(messagesDispatcher)
+	_, dispatcherError := messagesSvc.SendMessage(message)
+	if dispatcherError != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(dispatcherError.Error()))
+		log.Println(dispatcherError.Error())
+		return
+	}
+	// all good. write our message.
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("Message was sent!"))
 }

@@ -19,7 +19,7 @@ func New(webhookUrl string) *SlackConfig {
 }
 
 // GetPrivateKey reads the private key from the filesystem
-func (kg *SlackConfig) SendNotification(message *domain.Message) (interface{}, error) {
+func (kg *SlackConfig) SendNotification(message *domain.Message) (string, error) {
 	payload := slack.Payload{
 		Text:      message.Text,
 		Username:  message.Username,
@@ -30,4 +30,5 @@ func (kg *SlackConfig) SendNotification(message *domain.Message) (interface{}, e
 	if len(err) > 0 {
 		fmt.Printf("error: %s\n", err)
 	}
+	return "success", nil
 }

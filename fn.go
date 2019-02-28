@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"github.com/eldimious/slack-golang-gcf/config"
-	messagesStore "github.com/eldimious/slack-golang-gcf/data/messages"
+	dispatcher "github.com/eldimious/slack-golang-gcf/data/dispatcher"
 	messages "github.com/eldimious/slack-golang-gcf/domain/messages"
 )
 
@@ -41,7 +41,7 @@ func SendNotification(w http.ResponseWriter, r *http.Request) {
 		log.Println(err.Error())
 		return
 	}
-	messagesDispatcher := messagesStore.New(configuration.Slack)
+	messagesDispatcher := dispatcher.New(configuration.Slack)
 	messagesSvc := messages.NewService(messagesDispatcher)
 	_, dispatcherError := messagesSvc.SendMessage(message)
 	if dispatcherError != nil {
@@ -53,4 +53,5 @@ func SendNotification(w http.ResponseWriter, r *http.Request) {
 	// all good. write our message.
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("Message was sent!"))
+	return
 }

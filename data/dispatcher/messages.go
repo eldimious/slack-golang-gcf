@@ -32,5 +32,33 @@ func (ds *Dispatcher) SendMessage(message *domain.Message) (string, error) {
 	if len(err) > 0 {
 		fmt.Printf("error: %s\n", err)
 	}
-	return "success", nil
+	return "Your message has been sent successfully.", nil
+}
+
+func (ds *Dispatcher) SendSuccessMessage(message *domain.Message) (string, error) {
+	payload := slack.Payload{
+		Text:      message.Text,
+		Username:  message.Username,
+		Channel:   message.Channel,
+		IconEmoji: ":heavy_check_mark:",
+	}
+	err := slack.Send(ds.config.WebhookUrl, "", payload)
+	if len(err) > 0 {
+		fmt.Printf("error: %s\n", err)
+	}
+	return "Your message has been sent successfully.", nil
+}
+
+func (ds *Dispatcher) SendErrorMessage(message *domain.Message) (string, error) {
+	payload := slack.Payload{
+		Text:      message.Text,
+		Username:  message.Username,
+		Channel:   message.Channel,
+		IconEmoji: ":bomb:",
+	}
+	err := slack.Send(ds.config.WebhookUrl, "", payload)
+	if len(err) > 0 {
+		fmt.Printf("error: %s\n", err)
+	}
+	return "Your message has been sent successfully.", nil
 }

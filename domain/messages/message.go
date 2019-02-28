@@ -6,4 +6,5 @@ type Message struct {
 	Username  string
 	Channel   string
 	IconEmoji string
+	Type      string
 }

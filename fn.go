@@ -15,6 +15,7 @@ type messageValidator struct {
 	Username  string
 	Channel   string
 	IconEmoji string
+	Type      string
 }
 
 // SendNotification - Send notification to slack group
@@ -32,6 +33,7 @@ func SendNotification(w http.ResponseWriter, r *http.Request) {
 		Username:  data.Username,
 		Channel:   data.Channel,
 		IconEmoji: data.IconEmoji,
+		Type:      data.Type,
 	}
 
 	configuration, err := config.NewConfig()

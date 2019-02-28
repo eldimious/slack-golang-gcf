@@ -45,7 +45,7 @@ func SendNotification(w http.ResponseWriter, r *http.Request) {
 	}
 	messagesDispatcher := dispatcher.New(configuration.Slack)
 	messagesSvc := messages.NewService(messagesDispatcher)
-	_, dispatcherError := messagesSvc.SendMessage(message)
+	dispatcherError := messagesSvc.SendMessage(message)
 	if dispatcherError != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(dispatcherError.Error()))

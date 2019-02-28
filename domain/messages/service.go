@@ -2,9 +2,9 @@ package messages
 
 // BookService defines book service behavior.
 type MessageService interface {
-	SendMessage(*Message) (string, error)
-	SendErrorMessage(*Message) (string, error)
-	SendSuccessMessage(*Message) (string, error)
+	SendMessage(*Message) error
+	SendErrorMessage(*Message) error
+	SendSuccessMessage(*Message) error
 }
 
 // Service struct handles book business logic tasks.
@@ -12,7 +12,7 @@ type Service struct {
 	repository MessageService
 }
 
-func (svc *Service) SendMessage(message *Message) (string, error) {
+func (svc *Service) SendMessage(message *Message) error {
 	if message.Type == "error" {
 		return svc.repository.SendErrorMessage(message)
 	} else if message.Type == "success" {

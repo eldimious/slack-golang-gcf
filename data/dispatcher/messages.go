@@ -1,8 +1,6 @@
 package dispatcher
 
 import (
-	"fmt"
-
 	"github.com/ashwanthkumar/slack-go-webhook"
 	"github.com/eldimious/slack-golang-gcf/config"
 	domain "github.com/eldimious/slack-golang-gcf/domain/messages"
@@ -21,7 +19,7 @@ func New(config *config.Slack) *Dispatcher {
 }
 
 // SendMessage send message
-func (ds *Dispatcher) SendMessage(message *domain.Message) (string, error) {
+func (ds *Dispatcher) SendMessage(message *domain.Message) error {
 	payload := slack.Payload{
 		Text:      message.Text,
 		Username:  message.Username,
@@ -30,12 +28,12 @@ func (ds *Dispatcher) SendMessage(message *domain.Message) (string, error) {
 	}
 	err := slack.Send(ds.config.WebhookUrl, "", payload)
 	if len(err) > 0 {
-		fmt.Printf("error: %s\n", err)
+		return err[0]
 	}
-	return "Your message has been sent successfully.", nil
+	return nil
 }
 
-func (ds *Dispatcher) SendSuccessMessage(message *domain.Message) (string, error) {
+func (ds *Dispatcher) SendSuccessMessage(message *domain.Message) error {
 	payload := slack.Payload{
 		Text:      message.Text,
 		Username:  message.Username,
@@ -44,12 +42,12 @@ func (ds *Dispatcher) SendSuccessMessage(message *domain.Message) (string, error
 	}
 	err := slack.Send(ds.config.WebhookUrl, "", payload)
 	if len(err) > 0 {
-		fmt.Printf("error: %s\n", err)
+		return err[0]
 	}
-	return "Your message has been sent successfully.", nil
+	return nil
 }
 
-func (ds *Dispatcher) SendErrorMessage(message *domain.Message) (string, error) {
+func (ds *Dispatcher) SendErrorMessage(message *domain.Message) error {
 	payload := slack.Payload{
 		Text:      message.Text,
 		Username:  message.Username,
@@ -58,7 +56,7 @@ func (ds *Dispatcher) SendErrorMessage(message *domain.Message) (string, error) 
 	}
 	err := slack.Send(ds.config.WebhookUrl, "", payload)
 	if len(err) > 0 {
-		fmt.Printf("error: %s\n", err)
+		return err[0]
 	}
-	return "Your message has been sent successfully.", nil
+	return nil
 }

@@ -21,14 +21,14 @@ func New(config *config.Slack) *Dispatcher {
 }
 
 // SendMessage send message
-func (kg *Dispatcher) SendMessage(message *domain.Message) (string, error) {
+func (ds *Dispatcher) SendMessage(message *domain.Message) (string, error) {
 	payload := slack.Payload{
 		Text:      message.Text,
 		Username:  message.Username,
 		Channel:   message.Channel,
 		IconEmoji: message.IconEmoji,
 	}
-	err := slack.Send(kg.config.WebhookUrl, "", payload)
+	err := slack.Send(ds.config.WebhookUrl, "", payload)
 	if len(err) > 0 {
 		fmt.Printf("error: %s\n", err)
 	}

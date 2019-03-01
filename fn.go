@@ -63,6 +63,6 @@ func SendNotification(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusOK)
 	w.Header().Set("Content-type", "applciation/json")
-	w.Write([]byte("Message was sent!"))
+	w.Write([]byte("Your message has been sent successfully!"))
 	return
 }

@@ -1,4 +1,4 @@
-# Serverless Slack communication using Google Cloud Functions as FaaS.
+# Serverless Slack messages dispatcher using Google Cloud Functions as FaaS.
 
 When we say “serverless”, it doesn’t mean servers are no longer involved. It means that you no longer need to think about them.
 Serverless is an approach that aims to eliminate the need to manage infrastructure by:

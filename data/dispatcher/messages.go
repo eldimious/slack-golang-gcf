@@ -6,7 +6,7 @@ import (
 	domain "github.com/eldimious/slack-golang-gcf/domain/messages"
 )
 
-// Dispatcher sends notification to slack groups
+// Dispatcher sends notification to slack
 type Dispatcher struct {
 	config *config.Slack
 }
@@ -18,7 +18,7 @@ func New(config *config.Slack) *Dispatcher {
 	}
 }
 
-// SendMessage send message
+// SendMessage sends message to a channel
 func (ds *Dispatcher) SendMessage(message *domain.Message) error {
 	payload := slack.Payload{
 		Text:      message.Text,
@@ -33,6 +33,7 @@ func (ds *Dispatcher) SendMessage(message *domain.Message) error {
 	return nil
 }
 
+// SendSuccessMessage sends message to a channel with default iconemoji
 func (ds *Dispatcher) SendSuccessMessage(message *domain.Message) error {
 	payload := slack.Payload{
 		Text:      message.Text,
@@ -47,6 +48,7 @@ func (ds *Dispatcher) SendSuccessMessage(message *domain.Message) error {
 	return nil
 }
 
+// SendErrorMessage sends message to a channel with default iconemoji
 func (ds *Dispatcher) SendErrorMessage(message *domain.Message) error {
 	payload := slack.Payload{
 		Text:      message.Text,

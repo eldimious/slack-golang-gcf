@@ -1,13 +1,13 @@
 package messages
 
-// BookService defines book service behavior.
+// MessageService defines book service behavior.
 type MessageService interface {
 	SendMessage(*Message) error
 	SendErrorMessage(*Message) error
 	SendSuccessMessage(*Message) error
 }
 
-// Service struct handles book business logic tasks.
+// Service struct handles message business logic tasks.
 type Service struct {
 	repository MessageService
 }

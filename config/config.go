@@ -7,7 +7,7 @@ type Config struct {
 	Slack *Slack
 }
 
-// Database is a struct that contains DB's configuration variables
+// Slack is a struct that contains Slack's configuration variables
 type Slack struct {
 	WebhookUrl string
 }
